@@ -1,10 +1,7 @@
-// 定義角色允許的輸入控制
-import 'package:flame/events.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// 定義角色允許的輸入控制
 enum Action {
   idle,
 

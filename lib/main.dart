@@ -1,4 +1,5 @@
 import 'package:flame_demo/player/widget.dart';
+import 'package:flame_demo/router/widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -35,6 +36,10 @@ class MyHomePage extends StatelessWidget {
           Route(
             title: 'Player',
             builder: (context) => const MyPlayerPage(),
+          ),
+          Route(
+            title: 'Router',
+            builder: (context) => const MyRouterPage(),
           ),
         ]
             .map((e) => ListTile(

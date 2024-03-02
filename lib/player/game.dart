@@ -32,4 +32,12 @@ class MyGame extends ControlGame {
       actionByKeyEvent(event, HardwareKeyboard.instance.logicalKeysPressed);
     }));
   }
+
+  @override
+  void onRemove() {
+    removeAll(children);
+    processLifecycleEvents();
+    images.clearCache();
+    assets.clearCache();
+  }
 }
