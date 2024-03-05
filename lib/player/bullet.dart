@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 // 發射的子彈
@@ -18,5 +19,6 @@ class Bullet extends PositionComponent with HasGameRef {
       ),
     );
     add(bullet);
+    add(RectangleHitbox(size: Vector2(4, 14)));
   }
 }
