@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:ffi';
-import 'dart:math';
-
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_demo/player/bullet.dart';

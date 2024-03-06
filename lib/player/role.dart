@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -55,7 +54,8 @@ class Role<T extends FlameGame<World>> extends PositionComponent
   RoleDirection _direction;
   RoleDirection get direction => _direction;
   var _state = RoleState.idle;
-  CollisionType _collisionType;
+  final CollisionType _collisionType;
+
   // 角色移動速度
   double speed;
 
