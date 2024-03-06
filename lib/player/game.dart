@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame_demo/player/bullet.dart';
 import 'package:flame_demo/player/monster.dart';
 import 'package:flame_demo/player/role.dart';
 import 'package:flutter/services.dart';
@@ -34,6 +33,11 @@ class MyGame extends ControlGame with HasCollisionDetection {
         Monster(player, 'puppet')
           ..position = Vector2(
               player.position.x - mapUnit * (i + 3) - mapUnit * i,
+              player.position.y - mapUnit * (i + 3) - mapUnit * i),
+      for (var i = 0; i < 4; i++)
+        Monster(player, 'doll')
+          ..position = Vector2(
+              player.position.x + mapUnit * (i + 3) + mapUnit * i,
               player.position.y - mapUnit * (i + 3) - mapUnit * i),
     ]);
 
