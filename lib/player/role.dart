@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/rendering.dart';
 
 // 定義角色方向
 enum RoleDirection { arrowDown, arrowLeft, arrowRight, arrowUp }
@@ -42,6 +43,7 @@ const roleSize = 64.0;
 // 定義遊戲角色
 class Role<T extends FlameGame<World>> extends PositionComponent
     with HasGameReference<T> {
+  Rect? rect;
   Role(
     this.assets, {
     RoleDirection direction = RoleDirection.arrowDown,
@@ -301,6 +303,19 @@ class Role<T extends FlameGame<World>> extends PositionComponent
         _animation.current = animation;
       }
       _direction = direction;
+
+      if (rect != null) {
+        if (position.x < rect!.left) {
+          position.x = rect!.left;
+        } else if (position.x > rect!.right) {
+          position.x = rect!.right;
+        }
+        if (position.y < rect!.top) {
+          position.y = rect!.top;
+        } else if (position.y > rect!.bottom) {
+          position.y = rect!.bottom;
+        }
+      }
     }
   }
 

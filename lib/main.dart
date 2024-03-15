@@ -1,3 +1,4 @@
+import 'package:flame_demo/drag/widget.dart';
 import 'package:flame_demo/player/widget.dart';
 import 'package:flame_demo/router/widget.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,10 @@ class MyHomePage extends StatelessWidget {
           Route(
             title: 'Router',
             builder: (context) => const MyRouterPage(),
+          ),
+          Route(
+            title: 'Drag Events',
+            builder: (context) => const MyDragPage(),
           ),
         ]
             .map((e) => ListTile(

@@ -1,15 +1,15 @@
 import 'dart:math';
 
 import 'package:flame/collisions.dart';
+import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import 'package:flame/game.dart';
 
 import './bullet.dart';
 import './role.dart';
 import './control.dart';
 
 // 移動速度
-const playerSpeed = 48.0 * 2;
+const playerSpeed = 48.0 * 4;
 
 // 玩家控制的角色
 class Player extends Role<ControlGame> {
@@ -17,6 +17,7 @@ class Player extends Role<ControlGame> {
     super.assets,
   ) : super(collisionType: CollisionType.active, speed: playerSpeed);
 
+  JoystickComponent? joystick;
   @override
   void update(double dt) {
     super.update(dt);
@@ -36,6 +37,35 @@ class Player extends Role<ControlGame> {
 
   // 執行移動
   void _move(double dt) {
+    if (joystick != null && !joystick!.delta.isZero()) {
+      final delta = joystick!.delta;
+      if (delta.x < -10) {
+        if (delta.y > -delta.x) {
+          executeMove(dt, RoleDirection.arrowDown);
+        } else if (delta.y < delta.x) {
+          executeMove(dt, RoleDirection.arrowUp);
+        } else {
+          executeMove(dt, RoleDirection.arrowLeft);
+        }
+        return;
+      } else if (delta.x > 10) {
+        if (delta.y > delta.x) {
+          executeMove(dt, RoleDirection.arrowDown);
+        } else if (delta.y < -delta.x) {
+          executeMove(dt, RoleDirection.arrowUp);
+        } else {
+          executeMove(dt, RoleDirection.arrowRight);
+        }
+        return;
+      } else if (delta.y > 10) {
+        executeMove(dt, RoleDirection.arrowDown);
+        return;
+      } else if (delta.y < -10) {
+        executeMove(dt, RoleDirection.arrowUp);
+        return;
+      }
+    }
+
     if (game.actionSets.contains(Action.arrowUp)) {
       executeMove(dt, RoleDirection.arrowUp);
     } else if (game.actionSets.contains(Action.arrowDown)) {
