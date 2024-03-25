@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_demo/player/monster.dart';
 import 'package:flame_demo/player/role.dart';
@@ -16,7 +17,6 @@ class MyGame extends ControlGame with HasCollisionDetection {
     this.debugMode = debugMode;
   }
 
-  late UIComponent ui;
   @override
   FutureOr<void> onLoad() async {
     // 加載地圖
@@ -58,10 +58,36 @@ class MyGame extends ControlGame with HasCollisionDetection {
       actionByKeyEvent(event, HardwareKeyboard.instance.logicalKeysPressed);
     }));
 
-    // 添加 ui 層
-    add(ui = UIComponent(priority: camera.priority + 1));
+    // 添加控制器
+    final joystick = JoystickComponent(
+      knob: CircleComponent(
+        radius: 30,
+        paint: BasicPalette.blue.withAlpha(200).paint(),
+      ),
+      background: CircleComponent(
+        radius: 100,
+        paint: BasicPalette.blue.withAlpha(100).paint(),
+      ),
+      margin: const EdgeInsets.only(left: 8, bottom: 8),
+      priority: camera.priority + 1,
+    );
+    add(joystick);
+    player.joystick = joystick;
 
-    player.joystick = ui.joystick;
+    // 添加按鈕
+    add(HudButtonComponent(
+      button: CircleComponent(radius: 24),
+      priority: camera.priority + 1,
+      margin: const EdgeInsets.only(
+        right: 32,
+        bottom: 32,
+      ),
+      onPressed: () {
+        if (player.canAttack) {
+          player.executeAttack();
+        }
+      },
+    ));
   }
 
   @override
@@ -70,31 +96,5 @@ class MyGame extends ControlGame with HasCollisionDetection {
     processLifecycleEvents();
     images.clearCache();
     assets.clearCache();
-  }
-}
-
-class UIComponent extends Component {
-  UIComponent({super.priority});
-  final camera = CameraComponent(
-    world: World(),
-    viewfinder: Viewfinder(),
-  );
-  final joystick = JoystickComponent(
-    knob: CircleComponent(
-      radius: 30,
-      paint: BasicPalette.blue.withAlpha(200).paint(),
-    ),
-    background: CircleComponent(
-      radius: 100,
-      paint: BasicPalette.blue.withAlpha(100).paint(),
-    ),
-    margin: const EdgeInsets.only(left: 8, bottom: 8),
-  );
-  @override
-  FutureOr<void> onLoad() {
-    // 添加控制器
-    camera.viewfinder.anchor = Anchor.topLeft;
-    camera.viewport.add(joystick);
-    addAll([camera, camera.world!]);
   }
 }
