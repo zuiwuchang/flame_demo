@@ -58,6 +58,9 @@ class MyGame extends ControlGame with HasCollisionDetection {
       actionByKeyEvent(event, HardwareKeyboard.instance.logicalKeysPressed);
     }));
 
+    // 將 ui 始終顯示在攝像機之前
+    final priority = camera.priority + 1;
+
     // 添加控制器
     final joystick = JoystickComponent(
       knob: CircleComponent(
@@ -69,7 +72,7 @@ class MyGame extends ControlGame with HasCollisionDetection {
         paint: BasicPalette.blue.withAlpha(100).paint(),
       ),
       margin: const EdgeInsets.only(left: 8, bottom: 8),
-      priority: camera.priority + 1,
+      priority: priority,
     );
     add(joystick);
     player.joystick = joystick;
@@ -77,7 +80,7 @@ class MyGame extends ControlGame with HasCollisionDetection {
     // 添加按鈕
     add(HudButtonComponent(
       button: CircleComponent(radius: 24),
-      priority: camera.priority + 1,
+      priority: priority,
       margin: const EdgeInsets.only(
         right: 32,
         bottom: 32,
@@ -88,6 +91,9 @@ class MyGame extends ControlGame with HasCollisionDetection {
         }
       },
     ));
+
+    // fps
+    add(FpsTextComponent());
   }
 
   @override
